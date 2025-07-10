@@ -7,3 +7,9 @@ Devices in /dev/ for webcam:
 ffmpeg commands:
 	-(640x480) ffmpeg -f v4l2 -input_format mjpeg -video_size 640x480 -framerate 30 -i /dev/video0 -frames:v 1 snapshot.jpg
 	-TEST WITH POWER SUPPLY(1920x1080) ffmpeg -video_size 1920x1080 -f v4l2 -input_format mjpeg -i /dev/video0 -frames:v 1 ~/picture.jpg
+
+    -Stream mp4 video to vlc on host:
+        ffmpeg -re -i snapshot1.mp4 -f lavfi -i anullsrc=cl=stereo:r=441000 -shortest 0c:v libx264 -preset ultrafast -tune zerolatency -c:a aac -b:a 128k -f mpegts udp://192.168.7.1:1234?pkt_size=1316
+
+    -Capture stream from host
+        vlc udp://@192.168.7.1:1234 --network-caching=1000
